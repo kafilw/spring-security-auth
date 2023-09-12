@@ -49,14 +49,16 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
         
+        else if (request.getRequestURI().equals("/login")) {
+                //filterChain.doFilter(request, response);
+                return;
+            }
+         
         else {
-            System.out.println("JWT Token does not begin with Bearer String");
+            logger.warn("JWT Token does not begin with Bearer String");
         }
 
-        if (request.getRequestURI().equals("/login")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        
 
         if(null != username && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (tokenBlacklist.isBlacklisted(token)) {
